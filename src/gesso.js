@@ -1,15 +1,13 @@
 /*
  * Gesso
  * by Antonia Elsen - aelsen @ github
+ * https://github.com/aelsen/gesso
  * 
  * Gesso is a wrapper for the HTML Canvas and its 2D Context, 
  * with the purpose of enabling easy zooming and panning.
  * 
  * Part of this solution was inspired by the work of Phrogz @ github.
  */
-
-var crs_x = 0, crs_y = 0;
-var crs_drag, dragged;
 
 /**
  * Gesso Class
@@ -26,9 +24,6 @@ var Gesso = function () {
  * Clears the current canvas.
  */
 Gesso.prototype.clear = function() {
-  // var p1 = this.ctx.transformedPoint(0,0); // TODO watch this
-  // var p2 = this.ctx.transformedPoint(this.width, this.height);
-  // ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
   this.ctx.save();
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
   this.ctx.clearRect(0, 0, this.width, this.height);
@@ -45,7 +40,7 @@ Gesso.prototype.getImageData = function() {
 
 /**
  * Returns the number of pixels in the canvas.
- * @returns {Number}
+ * @returns {number}
  */
 Gesso.prototype.getPixelCount = function() {
   return this.width * this.height;
@@ -72,15 +67,13 @@ Gesso.prototype.redraw = function(image) {
     this.ctx.drawImage(image, 0, 0); 
   } else if (this.src) {
     this.ctx.drawImage(this.src, 0, 0);
-  } else {
-    console.log("Cannot redraw canvas. No image provided.");
   }
-}
+};
 
 /**
  * Resizes the canvas.
- * @param {Number} width 
- * @param {Number} height 
+ * @param {number} width 
+ * @param {number} height 
  */
 Gesso.prototype.resize = function (width, height) {
   this.canvas.width = width;
@@ -99,25 +92,26 @@ Gesso.prototype.putImageData = function (data) {
 
 /**
  * Pan the canvas.
- * @param {Number} direction 
- * @param {Number} x 
- * @param {Number} y 
+ * @param {number} direction 
+ * @param {number} x 
+ * @param {number} y 
  */
 Gesso.prototype.pan = function (image, start_x, start_y, end_x, end_y){
   var pt = this.ctx.transformedPoint(start_x, start_y);
   this.ctx.translate(pt.x-end_x,pt.y-end_y);
   this.redraw(image);
-}
+};
 
 /**
  * Zoom the canvas.
- * @param {Number} direction
- * @param {Number} x
- * @param {Number} y
+ * @param {Image} image
+ * @param {number} direction
+ * @param {number} center_x
+ * @param {number} center_y
  */
-Gesso.prototype.zoom = function (image, direction, x, y) {
+Gesso.prototype.zoom = function (image, direction, center_x, center_y) {
   var factor = Math.pow(this.zoomIncrement, direction);
-  var pt = this.ctx.transformedPoint(x, y);
+  var pt = this.ctx.transformedPoint(center_x, center_y);
   this.ctx.translate(pt.x, pt.y);
   this.ctx.scale(factor, factor);
   this.ctx.translate(-pt.x, -pt.y);
@@ -193,5 +187,5 @@ Gesso.prototype.trackTransforms = function (ctx) {
   ctx.transformedPoint = function (x, y) {
       pt.x = x; pt.y = y;
       return pt.matrixTransform(xform.inverse());
-  }
+  };
 };

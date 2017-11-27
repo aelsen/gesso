@@ -1,7 +1,9 @@
 # Gesso
 
 ## About
-Gesso is a wrapper for the HTML Canvas and it's 2D Context, with the purpose of enabling easy zooming and panning.
+Gesso is a wrapper for the HTML Canvas and its 2D Context, with the purpose of enabling easy zooming and panning.
+[github](https://github.com/aelsen/gesso)
+See a live demo [here](http://malfunct.io/n/).
 
 ## Author
 Antonia Elsen
